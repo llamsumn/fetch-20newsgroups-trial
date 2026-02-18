@@ -1,36 +1,46 @@
-NLP Topic Classification: 20 Newsgroups Trial
-=============================================
+# NLPipe: Text Classification Pipeline
 
-📌 Project Overview
--------------------
+A modular Python implementation for comparing the effects of **Stemming** vs. **Lemmatization** on text classification performance. This notebook utilizes the `nltk` library for preprocessing and `scikit-learn` for logistic regression modeling.
 
-This repository contains a trial implementation of an end-to-end Natural Language Processing (NLP) pipeline. Using the **20 Newsgroups dataset**, the project explores how machine learning models can categorize raw text documents into 20 different topics (ranging from religion and space to hardware and sports).
+---
 
-The core of this project is the NLPipe.ipynb notebook, which demonstrates data cleaning, vectorization, and model evaluation.
+## 🚀 Overview
+This project builds a custom `NLP` class that handles text normalization and preprocessing. It specifically targets four technical and recreational categories from the **20 Newsgroups** dataset to evaluate how different text reduction techniques impact model accuracy.
 
-📊 The Dataset
---------------
+## 🛠 The Pipeline
+The `NLP` class processes raw text through several modular stages:
+* **Normalization:** Converts all text to lowercase.
+* **Punctuation & Noise Removal:** Removes punctuation, tabs, newlines, and hidden characters.
+* **Tokenization:** Breaks text into individual words using `nltk.word_tokenize`.
+* **Stopword Removal:** Filters out common English stopwords.
+* **Numeric & Short Token Filtering:** Removes words containing digits and tokens shorter than two characters.
+* **Text Reduction:**
+    * **Porter Stemmer:** Aggressively chops word suffixes (e.g., "running" to "run").
+    * **WordNet Lemmatizer:** Uses Parts of Speech (POS) tagging to reduce words to their dictionary root.
 
-The **20 Newsgroups** dataset is a collection of approximately 20,000 newsgroup documents, partitioned (nearly) evenly across 20 different newsgroups. It is a standard benchmark for experiments in text applications of machine learning techniques.
+## 📊 Dataset & Features
+The model focuses on the following newsgroups:
+* `rec.motorcycles`
+* `rec.sport.hockey`
+* `sci.electronics`
+* `sci.space`
 
-*   **Source:** sklearn.datasets.fetch\_20newsgroups
-    
-*   **Target Classes:** 20 topics (e.g., sci.space, comp.graphics, talk.politics.mideast)
-    
+The processed text is transformed into a **Binary Feature Vector** based on the vocabulary built from the training data.
 
-🛠️ The Pipeline (NLPipe.ipynb)
--------------------------------
+## 📈 Performance Results
+The pipeline compares the Stemmed and Lemmatised models using Logistic Regression:
 
-The notebook follows a structured NLP workflow:
+| Metric | Stemmed Model | Lemmatised Model |
+| :--- | :--- | :--- |
+| **Vocabulary Size** | 24,336 | 27,455 |
+| **Test Accuracy** | 0.82 | 0.83 |
+| **CV Accuracy (Mean)** | 83.29% | 83.04% |
 
-1.  **Data Acquisition:** Loading the dataset using Scikit-Learn.
-    
-2.  **Preprocessing:** \* Removing headers, footers, and quotes to prevent the model from "overfitting" on metadata. Tokenization and stop-word removal.
-    
-3.  **Feature Extraction:** \* Transforming text into numerical data using **TF-IDF (Term Frequency-Inverse Document Frequency) Vectorization**.
-    
-4.  **Model Training:** \* Implementing classification algorithms (such as Multinomial Naive Bayes or Logistic Regression).
-    
-5.  **Evaluation:** \* Measuring performance via **Accuracy Score**, **Classification Report (Precision/Recall/F1)**, and **Confusion Matrix** visualization.
-    
+**Observation:** Lemmatization results in a larger feature dimension (difference of 3,119 words), but Stemming showed a slightly higher cross-validation accuracy by **0.25%**.
+
+## ⚙️ Requirements
+To run this notebook, ensure you have the following installed:
+* **Python 3.x**
+* **Libraries:** `numpy`, `nltk`, `scikit-learn`
+* **NLTK Data:** `punkt`, `wordnet`, `omw-1.4`, `averaged_perceptron_tagger`
     
